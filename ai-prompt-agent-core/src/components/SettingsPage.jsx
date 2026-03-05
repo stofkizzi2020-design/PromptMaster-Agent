@@ -15,7 +15,7 @@ import {
   Monitor,
 } from 'lucide-react';
 import { useTheme } from '../contexts/ThemeContext';
-import { useI18n } from '../lib/i18n';
+import { useI18n, SUPPORTED_LOCALES } from '../lib/i18n';
 
 export default function SettingsPage() {
   const [activeTab, setActiveTab] = useState('api');
@@ -38,8 +38,8 @@ export default function SettingsPage() {
   return (
     <div className="mx-auto max-w-4xl">
       <div className="mb-8">
-        <h1 className="text-2xl font-bold text-slate-900 dark:text-white">{t('settings.title')}</h1>
-        <p className="mt-1 text-sm text-slate-500 dark:text-gray-400">{t('settings.subtitle')}</p>
+        <h1 className="text-2xl font-bold text-slate-900 dark:text-slate-100">{t('settings.title')}</h1>
+        <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">{t('settings.subtitle')}</p>
       </div>
 
       <div className="flex gap-8">
@@ -55,11 +55,11 @@ export default function SettingsPage() {
                     onClick={() => setActiveTab(tab.id)}
                     className={`flex w-full items-center gap-2.5 rounded-lg px-3 py-2 text-sm font-medium transition-colors ${
                       active
-                        ? 'bg-indigo-50 text-indigo-700 dark:bg-indigo-900/30 dark:text-indigo-400'
-                        : 'text-slate-600 hover:bg-gray-50 hover:text-slate-900 dark:text-gray-400 dark:hover:bg-gray-800 dark:hover:text-white'
+                        ? 'bg-slate-200 text-slate-900 dark:bg-slate-800 dark:text-neon-blue'
+                        : 'text-slate-600 hover:bg-slate-100 hover:text-slate-900 dark:text-slate-400 dark:hover:bg-slate-800/60 dark:hover:text-slate-200'
                     }`}
                   >
-                    <Icon className={`h-4 w-4 ${active ? 'text-indigo-600 dark:text-indigo-400' : 'text-slate-400 dark:text-gray-500'}`} />
+                    <Icon className={`h-4 w-4 ${active ? 'text-slate-700 dark:text-neon-blue' : 'text-slate-400 dark:text-slate-500'}`} />
                     {tab.label}
                   </button>
                 </li>
@@ -84,15 +84,15 @@ export default function SettingsPage() {
           </motion.div>
 
           {/* Save button */}
-          <div className="mt-8 flex items-center gap-3 border-t border-gray-100 pt-6 dark:border-gray-700">
+          <div className="mt-8 flex items-center gap-3 border-t border-slate-200 pt-6 dark:border-slate-800">
             <button
               onClick={handleSave}
-              className="flex items-center gap-2 rounded-xl bg-indigo-600 px-5 py-2.5 text-sm font-medium text-white shadow-sm transition-all hover:bg-indigo-700 dark:bg-indigo-500 dark:hover:bg-indigo-600"
+              className="flex items-center gap-2 rounded-xl bg-slate-900 px-5 py-2.5 text-sm font-medium text-white shadow-sm transition-all hover:bg-slate-800 dark:bg-neon-blue dark:text-slate-950 dark:hover:bg-neon-cyan"
             >
               {saved ? <Check className="h-4 w-4" /> : <Save className="h-4 w-4" />}
               {saved ? t('settings.saved') : t('settings.save')}
             </button>
-            <button className="rounded-xl border border-gray-200 px-5 py-2.5 text-sm font-medium text-slate-600 transition-colors hover:bg-gray-50 dark:border-gray-700 dark:text-gray-300 dark:hover:bg-gray-800">
+            <button className="rounded-xl border border-slate-200 px-5 py-2.5 text-sm font-medium text-slate-600 transition-colors hover:bg-slate-50 dark:border-slate-700 dark:text-slate-300 dark:hover:bg-slate-800">
               {t('settings.cancel')}
             </button>
           </div>
@@ -141,13 +141,13 @@ function APIKeysSettings() {
             { label: t('api.apiCalls'), value: '89', max: '500' },
             { label: t('api.tokensUsed'), value: '32.4K', max: '100K' },
           ].map((stat) => (
-            <div key={stat.label} className="rounded-xl border border-gray-100 p-4 dark:border-gray-700 dark:bg-gray-800/50">
-              <p className="text-xs font-medium text-slate-500 dark:text-gray-400">{stat.label}</p>
-              <p className="mt-1 text-lg font-bold text-slate-900 dark:text-white">{stat.value}</p>
-              <div className="mt-2 h-1.5 w-full rounded-full bg-gray-100 dark:bg-gray-700">
-                <div className="h-full rounded-full bg-indigo-500" style={{ width: '35%' }} />
+            <div key={stat.label} className="rounded-xl border border-slate-200 p-4 dark:border-slate-700 dark:bg-slate-900">
+              <p className="text-xs font-medium text-slate-500 dark:text-slate-400">{stat.label}</p>
+              <p className="mt-1 text-lg font-bold text-slate-900 dark:text-slate-100">{stat.value}</p>
+              <div className="mt-2 h-1.5 w-full rounded-full bg-slate-100 dark:bg-slate-800">
+                <div className="h-full rounded-full bg-slate-800 dark:bg-neon-blue" style={{ width: '35%' }} />
               </div>
-              <p className="mt-1 text-[11px] text-slate-400 dark:text-gray-500">{t('api.of')} {stat.max}</p>
+              <p className="mt-1 text-[11px] text-slate-400 dark:text-slate-500">{t('api.of')} {stat.max}</p>
             </div>
           ))}
         </div>
@@ -178,12 +178,12 @@ function AppearanceSettings() {
               onClick={() => setTheme(thm.id)}
               className={`flex flex-col items-center gap-2 rounded-xl border-2 p-4 transition-all ${
                 active
-                  ? 'border-indigo-500 bg-indigo-50 dark:bg-indigo-900/30 dark:border-indigo-400'
-                  : 'border-gray-200 bg-white hover:border-gray-300 dark:border-gray-700 dark:bg-gray-800 dark:hover:border-gray-600'
+                  ? 'border-slate-800 bg-slate-100 dark:bg-slate-800 dark:border-neon-blue shadow-lg shadow-neon-blue/5'
+                  : 'border-slate-200 bg-white hover:border-slate-300 dark:border-slate-700 dark:bg-slate-900 dark:hover:border-slate-600'
               }`}
             >
-              <Icon className={`h-5 w-5 ${active ? 'text-indigo-600 dark:text-indigo-400' : 'text-slate-500 dark:text-gray-400'}`} />
-              <span className={`text-sm font-medium ${active ? 'text-indigo-700 dark:text-indigo-300' : 'text-slate-700 dark:text-gray-300'}`}>
+              <Icon className={`h-5 w-5 ${active ? 'text-slate-900 dark:text-neon-blue' : 'text-slate-500 dark:text-slate-400'}`} />
+              <span className={`text-sm font-medium ${active ? 'text-slate-900 dark:text-neon-blue' : 'text-slate-700 dark:text-slate-300'}`}>
                 {thm.label}
               </span>
             </button>
@@ -222,7 +222,7 @@ function PrivacySettings() {
         <ToggleRow label={t('privacy.analytics')} desc={t('privacy.analyticsDesc')} checked={analytics} onChange={setAnalytics} />
         <ToggleRow label={t('privacy.storeHistory')} desc={t('privacy.storeHistoryDesc')} checked={storeHistory} onChange={setStoreHistory} />
       </div>
-      <div className="mt-6 pt-4 border-t border-gray-100 dark:border-gray-700">
+      <div className="mt-6 pt-4 border-t border-slate-100 dark:border-slate-800">
         <button className="text-sm font-medium text-red-600 hover:text-red-700 transition-colors dark:text-red-400 dark:hover:text-red-300">
           {t('privacy.deleteAll')}
         </button>
@@ -236,14 +236,31 @@ function LanguageSettings() {
 
   return (
     <SettingsCard title={t('lang.title')} description={t('lang.desc')}>
-      <select
-        value={locale}
-        onChange={(e) => setLocale(e.target.value)}
-        className="w-full rounded-xl border border-gray-200 bg-white px-4 py-2.5 text-sm text-slate-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:border-gray-700 dark:bg-gray-800 dark:text-white"
-      >
-        <option value="en">English</option>
-        <option value="ar">العربية</option>
-      </select>
+      <div className="grid grid-cols-1 gap-2">
+        {SUPPORTED_LOCALES.map((loc) => (
+          <button
+            key={loc.code}
+            onClick={() => setLocale(loc.code)}
+            className={`flex items-center gap-3 rounded-lg border-2 px-4 py-3 text-left transition-all ${
+              locale === loc.code
+                ? 'border-slate-800 bg-slate-100 dark:border-neon-blue dark:bg-slate-800'
+                : 'border-slate-200 bg-white hover:border-slate-300 dark:border-slate-700 dark:bg-slate-900 dark:hover:border-slate-600'
+            }`}
+          >
+            <span className="text-lg">{loc.flag}</span>
+            <span className={`text-sm font-medium ${
+              locale === loc.code
+                ? 'text-slate-900 dark:text-neon-blue'
+                : 'text-slate-700 dark:text-slate-300'
+            }`}>
+              {loc.label}
+            </span>
+            {locale === loc.code && (
+              <Check className="ml-auto h-4 w-4 text-slate-900 dark:text-neon-blue" />
+            )}
+          </button>
+        ))}
+      </div>
     </SettingsCard>
   );
 }
@@ -252,9 +269,9 @@ function LanguageSettings() {
 
 function SettingsCard({ title, description, children }) {
   return (
-    <div className="rounded-2xl border border-gray-200 bg-white p-6 shadow-sm dark:border-gray-700 dark:bg-gray-800">
-      <h3 className="text-base font-semibold text-slate-900 dark:text-white">{title}</h3>
-      <p className="mt-1 text-sm text-slate-500 dark:text-gray-400">{description}</p>
+    <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm dark:border-slate-800 dark:bg-slate-900">
+      <h3 className="text-base font-semibold text-slate-900 dark:text-slate-100">{title}</h3>
+      <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">{description}</p>
       <div className="mt-5">{children}</div>
     </div>
   );
@@ -263,19 +280,19 @@ function SettingsCard({ title, description, children }) {
 function KeyInput({ label, value, onChange, show, onToggle, placeholder }) {
   return (
     <div>
-      <label className="mb-1.5 block text-sm font-medium text-slate-700 dark:text-gray-300">{label}</label>
+      <label className="mb-1.5 block text-sm font-medium text-slate-700 dark:text-slate-300">{label}</label>
       <div className="relative">
         <input
           type={show ? 'text' : 'password'}
           value={value}
           onChange={(e) => onChange(e.target.value)}
           placeholder={placeholder}
-          className="w-full rounded-xl border border-gray-200 bg-gray-50 px-4 py-2.5 pe-10 text-sm text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all dark:border-gray-700 dark:bg-gray-900 dark:text-white dark:placeholder-gray-500"
+          className="w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-2.5 pe-10 text-sm text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-neon-blue focus:border-transparent transition-all dark:border-slate-700 dark:bg-slate-950 dark:text-slate-100 dark:placeholder-slate-500"
         />
         <button
           type="button"
           onClick={onToggle}
-          className="absolute end-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 dark:text-gray-500 dark:hover:text-gray-300"
+          className="absolute end-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 dark:text-slate-500 dark:hover:text-slate-300"
         >
           {show ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
         </button>
@@ -288,8 +305,8 @@ function ToggleRow({ label, desc, checked, onChange }) {
   return (
     <label className="flex items-center justify-between cursor-pointer">
       <div>
-        <p className="text-sm font-medium text-slate-900 dark:text-white">{label}</p>
-        <p className="text-xs text-slate-500 dark:text-gray-400">{desc}</p>
+        <p className="text-sm font-medium text-slate-900 dark:text-slate-100">{label}</p>
+        <p className="text-xs text-slate-500 dark:text-slate-400">{desc}</p>
       </div>
       <button
         type="button"
@@ -297,7 +314,7 @@ function ToggleRow({ label, desc, checked, onChange }) {
         aria-checked={checked}
         onClick={() => onChange(!checked)}
         className={`relative inline-flex h-6 w-11 shrink-0 rounded-full transition-colors ${
-          checked ? 'bg-indigo-600 dark:bg-indigo-500' : 'bg-gray-200 dark:bg-gray-600'
+          checked ? 'bg-slate-800 dark:bg-neon-blue' : 'bg-slate-200 dark:bg-slate-700'
         }`}
       >
         <span

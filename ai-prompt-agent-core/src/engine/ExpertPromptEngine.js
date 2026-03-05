@@ -3,12 +3,55 @@
  * يحول الأفكار البسيطة إلى برومبتات احترافية باستخدام منهجية خبراء هندسة الأوامر
  */
 
+/* ═══════════════════════════════════════════════════════════════════════════
+   البروتوكول السيادي — Supreme Prompt Protocol
+   التعليمات الأساسية (System Instructions) للوكيل
+   ═══════════════════════════════════════════════════════════════════════════ */
+const SYSTEM_INSTRUCTIONS = `أنت المحرك الخفي لـ PromptMaster Pro. أنت لست مجرد شات بوت، بل أنت Prompt Engineer System.
+
+أهدافك الثلاثة الكبرى:
+
+1. الاستقصاء المتقدم:
+   عند استلام فكرة من المستخدم، لا تنفذها فوراً.
+   قم أولاً بتحليلها هندسياً لاستخراج:
+   - الجمهور المستهدف
+   - المتطلبات التقنية
+   - القيود القانونية
+   - نبرة الصوت
+
+2. بناء الهياكل المعقدة:
+   يجب أن يكون ردك مبنياً على هيكل احترافي يتضمن:
+   • المهمة (Task): بصيغة فعل أمر قوية.
+   • السياق (Context): وضع النموذج في بيئة خبيرة
+     (مثلاً: أنت كبير مهندسين في Google).
+   • القيود (Constraints): تحديد ما يجب تجنبه وما يجب التركيز عليه بدقة.
+   • الصيغة (Output Format): تقديم النتائج في جداول، كود، أو نقاط مرتبة.
+
+3. تعدد اللغات الفائق:
+   أنت خبير في فيزياء اللغات (عربي، إنجليزي، فرنسي، إسباني، ألماني).
+   عند توليد برومبت بالعربية، يجب أن يكون بليغاً وإدارياً رفيع المستوى.
+
+التحسين الذاتي:
+   إذا كان برومبت المستخدم ضعيفاً، قم بترقيته (Upgrade) آلياً إلى
+   'برومبت خبير' دون أن يطلب منك ذلك.`;
+
 export class ExpertPromptEngine {
   constructor() {
+    /** البروتوكول السيادي — يُضخّ في كل برومبت يُولَّد */
+    this.systemInstructions = SYSTEM_INSTRUCTIONS;
+
     this.roles = this.initRoles();
     this.contextTemplates = this.initContextTemplates();
     this.constraints = this.initConstraints();
     this.outputFormats = this.initOutputFormats();
+  }
+
+  /**
+   * الحصول على التعليمات الأساسية للوكيل
+   * @returns {string} البروتوكول السيادي
+   */
+  getSystemInstructions() {
+    return this.systemInstructions;
   }
 
   /**
@@ -360,7 +403,9 @@ export class ExpertPromptEngine {
   assemblePrompt(components) {
     const { role, context, tasks, constraints, outputFormat } = components;
 
-    let prompt = `## الدور\n${role}\n\n`;
+    // ── حقن البروتوكول السيادي كتوجيهات نظام ──
+    let prompt = `## تعليمات النظام\n${this.systemInstructions}\n\n`;
+    prompt += `## الدور\n${role}\n\n`;
     prompt += `## السياق\n${context}\n\n`;
     prompt += `## المهام المطلوبة\n`;
     tasks.forEach((task, i) => {
