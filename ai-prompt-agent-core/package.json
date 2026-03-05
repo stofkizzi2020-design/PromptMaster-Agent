@@ -1,0 +1,40 @@
+{
+  "name": "promptmaster-pro",
+  "version": "2.0.0",
+  "description": "PromptMaster Pro - Professional AI Prompt Engineering Platform",
+  "main": "mainApp.js",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "lint": "eslint src/**/*.js",
+    "format": "prettier --write src/**/*.js"
+  },
+  "keywords": [
+    "ai",
+    "prompt",
+    "prompt-engineering",
+    "chatgpt",
+    "saas",
+    "productivity"
+  ],
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "@vitejs/plugin-react": "^5.1.4",
+    "autoprefixer": "^10.4.16",
+    "eslint": "^8.56.0",
+    "postcss": "^8.4.32",
+    "prettier": "^3.1.0",
+    "tailwindcss": "^3.4.0",
+    "vite": "^5.0.0"
+  },
+  "dependencies": {
+    "axios": "^1.13.6",
+    "framer-motion": "^12.35.0",
+    "lucide-react": "^0.577.0",
+    "react": "^19.2.4",
+    "react-dom": "^19.2.4"
+  }
+}
