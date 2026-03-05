@@ -51,7 +51,6 @@ export default function ChatInterface() {
     chatEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [messages]);
 
-  // Close menus on outside click
   useEffect(() => {
     const handler = (e) => {
       if (toneRef.current && !toneRef.current.contains(e.target)) setShowToneMenu(false);
@@ -61,7 +60,6 @@ export default function ChatInterface() {
     return () => document.removeEventListener('mousedown', handler);
   }, []);
 
-  // Ensure there's always an active chat
   useEffect(() => {
     if (!activeChatId) {
       startNewChat();
@@ -76,7 +74,6 @@ export default function ChatInterface() {
     setInput('');
     setIsGenerating(true);
 
-    // Simulate AI prompt generation
     await new Promise((r) => setTimeout(r, 1200 + Math.random() * 800));
 
     const detectedCategory = category === 'Auto-detect' ? detectCategory(userInput) : category;
@@ -121,11 +118,11 @@ export default function ChatInterface() {
   const isEmpty = messages.length === 0;
 
   return (
-    <div className="flex h-full flex-col bg-gray-50 dark:bg-gray-950">
-      {/* Chat Messages Area */}
+    <div className="flex h-full flex-col bg-white dark:bg-[#0d1117]">
+      {/* Messages Area */}
       <div className="flex-1 overflow-y-auto">
         {isEmpty ? (
-          /* Empty State — Hero */
+          /* ── Empty state ── */
           <div className="flex h-full flex-col items-center justify-center px-4">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
@@ -133,29 +130,29 @@ export default function ChatInterface() {
               transition={{ duration: 0.5 }}
               className="text-center max-w-2xl"
             >
-              <div className="mx-auto mb-6 flex h-16 w-16 items-center justify-center rounded-2xl bg-gradient-to-br from-indigo-500 to-purple-600 shadow-lg shadow-indigo-200 dark:shadow-indigo-900/40">
-                <Sparkles className="h-8 w-8 text-white" />
+              <div className="mx-auto mb-5 flex h-14 w-14 items-center justify-center rounded-full bg-[#1f2328] dark:bg-white">
+                <Sparkles className="h-7 w-7 text-white dark:text-[#1f2328]" />
               </div>
-              <h1 className="text-3xl font-bold tracking-tight text-slate-900 dark:text-white">
+              <h1 className="text-2xl font-semibold tracking-tight text-[#1f2328] dark:text-white">
                 {t('chat.title')}
               </h1>
-              <p className="mt-3 text-base text-slate-500 dark:text-gray-400 max-w-lg mx-auto">
+              <p className="mt-2 text-[14px] text-[#656d76] dark:text-[#7d8590] max-w-md mx-auto leading-relaxed">
                 {t('chat.subtitle')}
               </p>
 
-              {/* Suggestion Chips */}
-              <div className="mt-8 flex flex-wrap justify-center gap-3">
+              {/* Suggestion chips */}
+              <div className="mt-8 flex flex-wrap justify-center gap-2.5">
                 {SUGGESTIONS.map((s) => {
                   const Icon = s.icon;
                   return (
                     <motion.button
                       key={s.label}
-                      whileHover={{ scale: 1.03 }}
-                      whileTap={{ scale: 0.97 }}
+                      whileHover={{ scale: 1.02 }}
+                      whileTap={{ scale: 0.98 }}
                       onClick={() => handleSuggestion(s.prompt)}
-                      className="group flex items-center gap-2 rounded-2xl border border-gray-200 bg-white px-4 py-2.5 text-sm font-medium text-slate-700 shadow-sm transition-all hover:border-indigo-200 hover:shadow-md dark:border-gray-700 dark:bg-gray-800 dark:text-gray-300 dark:hover:border-indigo-700"
+                      className="group flex items-center gap-2 rounded-lg border border-[#d0d7de] bg-white px-3.5 py-2 text-[13px] font-medium text-[#1f2328] transition-all hover:border-[#0969da] hover:text-[#0969da] dark:border-[#30363d] dark:bg-[#161b22] dark:text-[#e6edf3] dark:hover:border-[#2f81f7] dark:hover:text-[#2f81f7]"
                     >
-                      <Icon className="h-4 w-4 text-slate-400 group-hover:text-indigo-500 transition-colors dark:text-gray-500 dark:group-hover:text-indigo-400" />
+                      <Icon className="h-4 w-4 text-[#656d76] group-hover:text-[#0969da] transition-colors dark:text-[#7d8590] dark:group-hover:text-[#2f81f7]" />
                       {s.label}
                     </motion.button>
                   );
@@ -164,15 +161,15 @@ export default function ChatInterface() {
             </motion.div>
           </div>
         ) : (
-          /* Message Thread */
+          /* ── Message thread ── */
           <div className="mx-auto max-w-3xl px-4 py-6 space-y-6">
             <AnimatePresence initial={false}>
               {messages.map((msg) => (
                 <motion.div
                   key={msg.id}
-                  initial={{ opacity: 0, y: 12 }}
+                  initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.3 }}
+                  transition={{ duration: 0.25 }}
                 >
                   {msg.role === 'user' ? (
                     <UserMessage content={msg.content} />
@@ -197,14 +194,14 @@ export default function ChatInterface() {
                 animate={{ opacity: 1 }}
                 className="flex items-start gap-3"
               >
-                <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-indigo-500 to-purple-600">
-                  <Sparkles className="h-4 w-4 text-white" />
+                <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-[#1f2328] dark:bg-white">
+                  <Sparkles className="h-3.5 w-3.5 text-white dark:text-[#1f2328]" />
                 </div>
-                <div className="rounded-2xl bg-white border border-gray-100 px-5 py-4 shadow-sm dark:bg-gray-800 dark:border-gray-700">
+                <div className="pt-1.5">
                   <div className="flex items-center gap-1.5">
-                    <span className="h-2 w-2 rounded-full bg-indigo-400 animate-bounce" style={{ animationDelay: '0ms' }} />
-                    <span className="h-2 w-2 rounded-full bg-indigo-400 animate-bounce" style={{ animationDelay: '150ms' }} />
-                    <span className="h-2 w-2 rounded-full bg-indigo-400 animate-bounce" style={{ animationDelay: '300ms' }} />
+                    <span className="h-2 w-2 rounded-full bg-[#656d76] animate-bounce" style={{ animationDelay: '0ms' }} />
+                    <span className="h-2 w-2 rounded-full bg-[#656d76] animate-bounce" style={{ animationDelay: '150ms' }} />
+                    <span className="h-2 w-2 rounded-full bg-[#656d76] animate-bounce" style={{ animationDelay: '300ms' }} />
                   </div>
                 </div>
               </motion.div>
@@ -215,10 +212,10 @@ export default function ChatInterface() {
         )}
       </div>
 
-      {/* Input Area — always pinned to bottom */}
-      <div className="shrink-0 border-t border-gray-100 bg-white/80 backdrop-blur-xl px-4 pb-4 pt-3 dark:border-gray-800 dark:bg-gray-900/80">
+      {/* ── Input area ── */}
+      <div className="shrink-0 border-t border-[#d0d7de] bg-[#f6f8fa] px-4 pb-4 pt-3 dark:border-[#30363d] dark:bg-[#161b22]">
         <form onSubmit={handleSubmit} className="mx-auto max-w-3xl">
-          <div className="relative rounded-2xl border border-gray-200 bg-white shadow-sm transition-shadow focus-within:shadow-lg focus-within:border-indigo-300 dark:border-gray-700 dark:bg-gray-800 dark:focus-within:border-indigo-600">
+          <div className="relative rounded-lg border border-[#d0d7de] bg-white shadow-sm transition-shadow focus-within:shadow-md focus-within:border-[#0969da] dark:border-[#30363d] dark:bg-[#0d1117] dark:focus-within:border-[#2f81f7]">
             <textarea
               ref={inputRef}
               value={input}
@@ -231,8 +228,8 @@ export default function ChatInterface() {
               }}
               rows={1}
               placeholder={t('chat.placeholder')}
-              className="block w-full resize-none rounded-2xl bg-transparent py-4 ps-5 pe-14 text-sm text-slate-900 placeholder-slate-400 focus:outline-none dark:text-white dark:placeholder-gray-500"
-              style={{ maxHeight: '160px', minHeight: '52px' }}
+              className="block w-full resize-none rounded-lg bg-transparent py-3 pl-4 pr-12 text-[14px] text-[#1f2328] placeholder-[#656d76] focus:outline-none dark:text-[#e6edf3] dark:placeholder-[#7d8590]"
+              style={{ maxHeight: '160px', minHeight: '44px' }}
               onInput={(e) => {
                 e.target.style.height = 'auto';
                 e.target.style.height = Math.min(e.target.scrollHeight, 160) + 'px';
@@ -241,24 +238,23 @@ export default function ChatInterface() {
             <button
               type="submit"
               disabled={!input.trim() || isGenerating}
-              className="absolute bottom-3 end-3 flex h-8 w-8 items-center justify-center rounded-xl bg-indigo-600 text-white shadow-sm transition-all hover:bg-indigo-700 disabled:opacity-40 disabled:cursor-not-allowed dark:bg-indigo-500 dark:hover:bg-indigo-600"
+              className="absolute bottom-2.5 right-2.5 flex h-7 w-7 items-center justify-center rounded-md bg-[#1f2328] text-white transition-all hover:bg-[#32383f] disabled:opacity-30 disabled:cursor-not-allowed dark:bg-white dark:text-[#1f2328] dark:hover:bg-[#d0d7de]"
             >
-              <Send className="h-4 w-4" />
+              <Send className="h-3.5 w-3.5" />
             </button>
           </div>
 
-          {/* Controls row */}
-          <div className="mt-2.5 flex items-center gap-2">
-            {/* Tone selector */}
+          {/* Controls */}
+          <div className="mt-2 flex items-center gap-2">
             <div className="relative" ref={toneRef}>
               <button
                 type="button"
                 onClick={() => { setShowToneMenu(!showToneMenu); setShowCategoryMenu(false); }}
-                className="flex items-center gap-1.5 rounded-lg border border-gray-200 bg-white px-3 py-1.5 text-xs font-medium text-slate-600 transition-colors hover:bg-gray-50 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-300 dark:hover:bg-gray-700"
+                className="flex items-center gap-1.5 rounded-md border border-[#d0d7de] bg-white px-2.5 py-1 text-xs font-medium text-[#656d76] transition-colors hover:bg-[#f3f4f6] hover:text-[#1f2328] dark:border-[#30363d] dark:bg-[#21262d] dark:text-[#7d8590] dark:hover:bg-[#30363d] dark:hover:text-[#e6edf3]"
               >
-                <Zap className="h-3.5 w-3.5 text-slate-400 dark:text-gray-500" />
+                <Zap className="h-3 w-3" />
                 {tone}
-                <ChevronDown className="h-3 w-3 text-slate-400 dark:text-gray-500" />
+                <ChevronDown className="h-3 w-3" />
               </button>
               <AnimatePresence>
                 {showToneMenu && (
@@ -266,15 +262,17 @@ export default function ChatInterface() {
                     initial={{ opacity: 0, y: 4 }}
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: 4 }}
-                    className="absolute bottom-full start-0 mb-1 w-40 rounded-xl border border-gray-200 bg-white py-1 shadow-lg z-50 dark:border-gray-700 dark:bg-gray-800"
+                    className="absolute bottom-full left-0 mb-1 w-40 rounded-lg border border-[#d0d7de] bg-white py-1 shadow-lg z-50 dark:border-[#30363d] dark:bg-[#161b22]"
                   >
                     {TONES.map((t) => (
                       <button
                         key={t}
                         type="button"
                         onClick={() => { setTone(t); setShowToneMenu(false); }}
-                        className={`block w-full px-3 py-1.5 text-start text-xs font-medium transition-colors ${
-                          tone === t ? 'bg-indigo-50 text-indigo-600 dark:bg-indigo-900/30 dark:text-indigo-400' : 'text-slate-600 hover:bg-gray-50 dark:text-gray-300 dark:hover:bg-gray-700'
+                        className={`block w-full px-3 py-1.5 text-left text-xs font-medium transition-colors ${
+                          tone === t
+                            ? 'bg-[#ddf4ff] text-[#0969da] dark:bg-[#0d2d4a] dark:text-[#2f81f7]'
+                            : 'text-[#1f2328] hover:bg-[#f3f4f6] dark:text-[#e6edf3] dark:hover:bg-[#2d333b]'
                         }`}
                       >
                         {t}
@@ -285,16 +283,15 @@ export default function ChatInterface() {
               </AnimatePresence>
             </div>
 
-            {/* Category selector */}
             <div className="relative" ref={categoryRef}>
               <button
                 type="button"
                 onClick={() => { setShowCategoryMenu(!showCategoryMenu); setShowToneMenu(false); }}
-                className="flex items-center gap-1.5 rounded-lg border border-gray-200 bg-white px-3 py-1.5 text-xs font-medium text-slate-600 transition-colors hover:bg-gray-50 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-300 dark:hover:bg-gray-700"
+                className="flex items-center gap-1.5 rounded-md border border-[#d0d7de] bg-white px-2.5 py-1 text-xs font-medium text-[#656d76] transition-colors hover:bg-[#f3f4f6] hover:text-[#1f2328] dark:border-[#30363d] dark:bg-[#21262d] dark:text-[#7d8590] dark:hover:bg-[#30363d] dark:hover:text-[#e6edf3]"
               >
-                <Lightbulb className="h-3.5 w-3.5 text-slate-400 dark:text-gray-500" />
+                <Lightbulb className="h-3 w-3" />
                 {category}
-                <ChevronDown className="h-3 w-3 text-slate-400 dark:text-gray-500" />
+                <ChevronDown className="h-3 w-3" />
               </button>
               <AnimatePresence>
                 {showCategoryMenu && (
@@ -302,15 +299,17 @@ export default function ChatInterface() {
                     initial={{ opacity: 0, y: 4 }}
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: 4 }}
-                    className="absolute bottom-full start-0 mb-1 w-44 rounded-xl border border-gray-200 bg-white py-1 shadow-lg z-50 dark:border-gray-700 dark:bg-gray-800"
+                    className="absolute bottom-full left-0 mb-1 w-44 rounded-lg border border-[#d0d7de] bg-white py-1 shadow-lg z-50 dark:border-[#30363d] dark:bg-[#161b22]"
                   >
                     {CATEGORIES.map((c) => (
                       <button
                         key={c}
                         type="button"
                         onClick={() => { setCategory(c); setShowCategoryMenu(false); }}
-                        className={`block w-full px-3 py-1.5 text-start text-xs font-medium transition-colors ${
-                          category === c ? 'bg-indigo-50 text-indigo-600 dark:bg-indigo-900/30 dark:text-indigo-400' : 'text-slate-600 hover:bg-gray-50 dark:text-gray-300 dark:hover:bg-gray-700'
+                        className={`block w-full px-3 py-1.5 text-left text-xs font-medium transition-colors ${
+                          category === c
+                            ? 'bg-[#ddf4ff] text-[#0969da] dark:bg-[#0d2d4a] dark:text-[#2f81f7]'
+                            : 'text-[#1f2328] hover:bg-[#f3f4f6] dark:text-[#e6edf3] dark:hover:bg-[#2d333b]'
                         }`}
                       >
                         {c}
@@ -321,7 +320,7 @@ export default function ChatInterface() {
               </AnimatePresence>
             </div>
 
-            <span className="ms-auto text-[11px] text-slate-400 dark:text-gray-500">
+            <span className="ml-auto text-[11px] text-[#656d76] dark:text-[#7d8590]">
               {t('chat.shiftEnter')}
             </span>
           </div>
@@ -331,13 +330,19 @@ export default function ChatInterface() {
   );
 }
 
-/* ─── Sub-components ─── */
+/* ─── Sub-components (Copilot-style: both left-aligned with avatars) ─── */
 
 function UserMessage({ content }) {
   return (
-    <div className="flex justify-end">
-      <div className="max-w-[85%] rounded-2xl rounded-br-md bg-indigo-600 px-5 py-3 text-sm leading-relaxed text-white shadow-sm dark:bg-indigo-500">
-        {content}
+    <div className="flex items-start gap-3">
+      <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-[#1f2328] text-[11px] font-bold text-white dark:bg-[#e6edf3] dark:text-[#1f2328]">
+        JD
+      </div>
+      <div className="min-w-0 flex-1 pt-0.5">
+        <p className="mb-1 text-[13px] font-semibold text-[#1f2328] dark:text-white">You</p>
+        <div className="text-[14px] leading-relaxed text-[#1f2328] dark:text-[#e6edf3]">
+          {content}
+        </div>
       </div>
     </div>
   );
@@ -346,7 +351,6 @@ function UserMessage({ content }) {
 function AssistantMessage({ msg, onCopy, onRegenerate, copiedId, messages, t }) {
   const isCopied = copiedId === msg.id;
 
-  // Find the previous user message for regeneration
   const prevUser = messages
     .slice(0, messages.indexOf(msg))
     .reverse()
@@ -354,42 +358,44 @@ function AssistantMessage({ msg, onCopy, onRegenerate, copiedId, messages, t }) 
 
   return (
     <div className="flex items-start gap-3">
-      <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-indigo-500 to-purple-600 shadow-sm">
-        <Sparkles className="h-4 w-4 text-white" />
+      <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-[#1f2328] dark:bg-white">
+        <Sparkles className="h-3.5 w-3.5 text-white dark:text-[#1f2328]" />
       </div>
-      <div className="min-w-0 flex-1 space-y-3">
-        {/* Prompt output card */}
-        <div className="rounded-2xl border border-gray-100 bg-white px-5 py-4 shadow-sm dark:border-gray-700 dark:bg-gray-800">
-          <pre className="whitespace-pre-wrap text-sm leading-relaxed text-slate-800 font-sans dark:text-gray-200">
+      <div className="min-w-0 flex-1 space-y-2 pt-0.5">
+        <p className="mb-1 text-[13px] font-semibold text-[#1f2328] dark:text-white">PromptMaster</p>
+
+        {/* Output card */}
+        <div className="rounded-lg border border-[#d0d7de] bg-[#f6f8fa] px-4 py-3 dark:border-[#30363d] dark:bg-[#161b22]">
+          <pre className="whitespace-pre-wrap text-[14px] leading-relaxed text-[#1f2328] font-sans dark:text-[#e6edf3]">
             {msg.content}
           </pre>
         </div>
 
-        {/* Meta + Actions */}
-        <div className="flex items-center gap-4">
+        {/* Meta + actions */}
+        <div className="flex items-center gap-3 flex-wrap">
           {msg.meta && (
             <div className="flex items-center gap-2">
-              <span className="rounded-md bg-indigo-50 px-2 py-0.5 text-[11px] font-semibold text-indigo-600 dark:bg-indigo-900/30 dark:text-indigo-400">
+              <span className="rounded-full bg-[#ddf4ff] px-2 py-0.5 text-[11px] font-semibold text-[#0969da] dark:bg-[#0d2d4a] dark:text-[#2f81f7]">
                 {msg.meta.category}
               </span>
-              <span className="rounded-md bg-gray-100 px-2 py-0.5 text-[11px] font-medium text-slate-500 dark:bg-gray-700 dark:text-gray-400">
+              <span className="rounded-full bg-[#f6f8fa] px-2 py-0.5 text-[11px] font-medium text-[#656d76] border border-[#d0d7de] dark:bg-[#21262d] dark:text-[#7d8590] dark:border-[#30363d]">
                 {msg.meta.tone}
               </span>
-              <span className="text-[11px] text-slate-400 dark:text-gray-500">
+              <span className="text-[11px] text-[#656d76] dark:text-[#7d8590]">
                 {t('chat.quality')}: {msg.meta.quality}% · ~{msg.meta.tokens} {t('chat.tokens')}
               </span>
             </div>
           )}
 
-          <div className="ms-auto flex items-center gap-1">
+          <div className="ml-auto flex items-center gap-1">
             <button
               onClick={() => onCopy(msg.content, msg.id)}
-              className="flex items-center gap-1 rounded-lg px-2.5 py-1 text-xs font-medium text-slate-500 transition-colors hover:bg-gray-100 hover:text-slate-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-gray-200"
+              className="flex items-center gap-1 rounded-md px-2 py-1 text-xs font-medium text-[#656d76] transition-colors hover:bg-[#f3f4f6] hover:text-[#1f2328] dark:text-[#7d8590] dark:hover:bg-[#2d333b] dark:hover:text-[#e6edf3]"
             >
               {isCopied ? (
                 <>
-                  <Check className="h-3.5 w-3.5 text-emerald-500" />
-                  <span className="text-emerald-600 dark:text-emerald-400">{t('chat.copied')}</span>
+                  <Check className="h-3.5 w-3.5 text-[#1a7f37] dark:text-[#3fb950]" />
+                  <span className="text-[#1a7f37] dark:text-[#3fb950]">{t('chat.copied')}</span>
                 </>
               ) : (
                 <>
@@ -401,7 +407,7 @@ function AssistantMessage({ msg, onCopy, onRegenerate, copiedId, messages, t }) 
             {prevUser && (
               <button
                 onClick={() => onRegenerate(prevUser.content)}
-                className="flex items-center gap-1 rounded-lg px-2.5 py-1 text-xs font-medium text-slate-500 transition-colors hover:bg-gray-100 hover:text-slate-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-gray-200"
+                className="flex items-center gap-1 rounded-md px-2 py-1 text-xs font-medium text-[#656d76] transition-colors hover:bg-[#f3f4f6] hover:text-[#1f2328] dark:text-[#7d8590] dark:hover:bg-[#2d333b] dark:hover:text-[#e6edf3]"
               >
                 <RotateCcw className="h-3.5 w-3.5" />
                 {t('chat.regenerate')}
