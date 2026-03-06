@@ -5,11 +5,8 @@ import {
   Settings,
   HelpCircle,
   ChevronsUpDown,
-  Sun,
-  Moon,
 } from 'lucide-react';
 import { useI18n } from '../lib/i18n';
-import { useTheme } from '../contexts/ThemeContext';
 import GsatLogo from './GsatLogo';
 
 /* ─── Nav item ─── */
@@ -39,7 +36,6 @@ function NavButton({ item, active, onNavigate }) {
 /* ─── Sidebar ─── */
 export default function Sidebar({ activePage, onNavigate }) {
   const { t } = useI18n();
-  const { resolvedTheme, setTheme } = useTheme();
 
   const mainNav = [
     { id: 'checker', label: 'Email Checker', icon: MailCheck },
@@ -51,35 +47,22 @@ export default function Sidebar({ activePage, onNavigate }) {
     { id: 'help', label: t('sidebar.help'), icon: HelpCircle },
   ];
 
-  const toggleTheme = () => {
-    setTheme(resolvedTheme === 'dark' ? 'light' : 'dark');
-  };
-
   return (
-    <aside className="fixed inset-y-0 left-0 z-50 flex w-64 flex-col border-r bg-[#f6f8fa] border-slate-200 dark:border-slate-800 dark:bg-slate-950">
-      {/* ─ Header: Brand + Theme toggle ─ */}
-      <div className="flex h-14 shrink-0 items-center justify-between px-4 border-b border-slate-200 dark:border-slate-800">
+    <aside className="fixed inset-y-0 left-0 z-50 flex w-64 flex-col border-r border-slate-200 bg-white">
+      {/* ─ Header: Brand ─ */}
+      <div className="flex h-14 shrink-0 items-center justify-between border-b border-slate-200 px-4">
         <div className="flex items-center gap-2">
-          <GsatLogo className="h-7 w-7 text-slate-800 dark:text-neon-cyan" neon />
-          <span className="text-[14px] font-semibold tracking-tight text-slate-900 dark:text-slate-100">
+          <GsatLogo className="h-7 w-7 text-slate-800" neon />
+          <span className="text-[14px] font-semibold tracking-tight text-slate-900">
             MailVerifier
           </span>
-          <span className="rounded bg-blue-100 px-1.5 py-0.5 text-[9px] font-bold uppercase tracking-wide text-blue-700 dark:bg-neon-blue/10 dark:text-neon-blue">
+          <span className="rounded bg-blue-100 px-1.5 py-0.5 text-[9px] font-bold uppercase tracking-wide text-blue-700">
             {t('sidebar.pro')}
           </span>
         </div>
-        {/* Moon / Sun toggle */}
-        <button
-          onClick={toggleTheme}
-          className="flex h-8 w-8 items-center justify-center rounded-md text-slate-500 transition-colors hover:bg-slate-200 hover:text-slate-900 dark:text-slate-400 dark:hover:bg-slate-800 dark:hover:text-neon-blue"
-          aria-label="Toggle theme"
-        >
-          {resolvedTheme === 'dark' ? (
-            <Sun className="h-[18px] w-[18px]" />
-          ) : (
-            <Moon className="h-[18px] w-[18px]" />
-          )}
-        </button>
+        <span className="rounded-md bg-slate-100 px-2 py-1 text-[10px] font-semibold uppercase tracking-wide text-slate-600">
+          Light
+        </span>
       </div>
 
       {/* ─ Primary Navigation ─ */}

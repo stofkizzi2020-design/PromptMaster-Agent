@@ -2,53 +2,28 @@ import React, { createContext, useContext, useState, useEffect, useCallback } fr
 
 const ThemeContext = createContext(null);
 
-function getSystemTheme() {
-  return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-}
-
-function applyTheme(theme) {
-  const resolved = theme === 'system' ? getSystemTheme() : theme;
+function applyTheme() {
   const root = document.documentElement;
-  if (resolved === 'dark') {
-    root.classList.add('dark');
-    document.body.classList.add('dark');
-  } else {
-    root.classList.remove('dark');
-    document.body.classList.remove('dark');
-  }
+  root.classList.remove('dark');
+  document.body.classList.remove('dark');
 }
 
 export function ThemeProvider({ children }) {
-  const [theme, setThemeState] = useState(() => {
-    try {
-      return localStorage.getItem('pm_theme') || 'light';
-    } catch {
-      return 'light';
-    }
-  });
+  const [theme, setThemeState] = useState('light');
 
-  // Apply on mount and when theme changes
+  // Enforce light mode globally on every render lifecycle.
   useEffect(() => {
-    applyTheme(theme);
+    applyTheme();
     try {
-      localStorage.setItem('pm_theme', theme);
+      localStorage.setItem('pm_theme', 'light');
     } catch {}
   }, [theme]);
 
-  // Listen for system preference changes when theme === 'system'
-  useEffect(() => {
-    if (theme !== 'system') return;
-    const mql = window.matchMedia('(prefers-color-scheme: dark)');
-    const handler = () => applyTheme('system');
-    mql.addEventListener('change', handler);
-    return () => mql.removeEventListener('change', handler);
-  }, [theme]);
-
-  const setTheme = useCallback((newTheme) => {
-    setThemeState(newTheme);
+  const setTheme = useCallback(() => {
+    setThemeState('light');
   }, []);
 
-  const resolvedTheme = theme === 'system' ? getSystemTheme() : theme;
+  const resolvedTheme = 'light';
 
   return (
     <ThemeContext.Provider value={{ theme, setTheme, resolvedTheme }}>
