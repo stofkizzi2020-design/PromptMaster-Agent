@@ -23,20 +23,20 @@ const fadeUp = {
 const features = [
   {
     icon: Zap,
-    title: 'Instant Generation',
-    desc: 'Transform rough ideas into structured, expert-level prompts in under 2 seconds.',
+    title: 'Instant Verification',
+    desc: 'Check individual emails in seconds before your campaign starts.',
     color: 'indigo',
   },
   {
     icon: Sparkles,
-    title: 'AI-Powered Quality',
-    desc: 'Built on prompt engineering best practices — role, context, tasks, constraints, and output format.',
+    title: 'Quality Scoring',
+    desc: 'Classify emails as valid, risky, or invalid with clear reasons.',
     color: 'purple',
   },
   {
     icon: Library,
-    title: 'Template Library',
-    desc: 'Start from 50+ curated templates for development, marketing, writing, and more.',
+    title: 'Bulk Processing',
+    desc: 'Paste large email lists and validate them in one run.',
     color: 'blue',
   },
   {
@@ -78,7 +78,7 @@ export default function LandingPage({ onNavigate }) {
             <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-indigo-600">
               <Sparkles className="h-4 w-4 text-white" />
             </div>
-            <span className="text-[15px] font-semibold tracking-tight">PromptMaster</span>
+            <span className="text-[15px] font-semibold tracking-tight">MailVerifier</span>
           </div>
           <div className="hidden sm:flex items-center gap-8">
             <a href="#features" className="text-sm font-medium text-slate-600 hover:text-slate-900 transition-colors">Features</a>
@@ -121,9 +121,9 @@ export default function LandingPage({ onNavigate }) {
               custom={1}
               className="text-4xl font-extrabold tracking-tight sm:text-5xl lg:text-6xl"
             >
-              Craft perfect prompts,{' '}
+              Clean your email list,{' '}
               <span className="bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">
-                every time
+                before you send
               </span>
             </motion.h1>
 
@@ -132,8 +132,8 @@ export default function LandingPage({ onNavigate }) {
               custom={2}
               className="mx-auto mt-6 max-w-2xl text-lg text-slate-500"
             >
-              The professional prompt engineering platform that transforms your
-              ideas into structured, high-quality AI prompts — instantly.
+              Professional email verification that checks syntax, disposable domains,
+              and MX records to improve deliverability.
             </motion.p>
 
             <motion.div variants={fadeUp} custom={3} className="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4">
@@ -197,10 +197,10 @@ export default function LandingPage({ onNavigate }) {
             className="text-center mb-16"
           >
             <motion.h2 variants={fadeUp} custom={0} className="text-3xl font-bold tracking-tight">
-              Everything you need to write better prompts
+              Everything you need for safer email outreach
             </motion.h2>
             <motion.p variants={fadeUp} custom={1} className="mt-3 text-base text-slate-500 max-w-xl mx-auto">
-              Professional prompt engineering tools, right in your browser.
+              Verify addresses, reduce bounces, and protect sender reputation.
             </motion.p>
           </motion.div>
 
@@ -239,7 +239,7 @@ export default function LandingPage({ onNavigate }) {
               Simple, transparent pricing
             </motion.h2>
             <motion.p variants={fadeUp} custom={1} className="mt-3 text-base text-slate-500">
-              Start free. Upgrade when you're ready.
+              Start free. Scale as your list grows.
             </motion.p>
 
             <motion.div variants={fadeUp} custom={2} className="mt-12 grid grid-cols-1 sm:grid-cols-2 gap-6 max-w-2xl mx-auto">
@@ -248,7 +248,7 @@ export default function LandingPage({ onNavigate }) {
                 <p className="text-sm font-semibold text-slate-900">Free</p>
                 <p className="mt-1 text-3xl font-bold text-slate-900">$0<span className="text-sm font-normal text-slate-500">/mo</span></p>
                 <ul className="mt-5 space-y-2.5 text-sm text-slate-600">
-                  {['50 prompts/month', 'Basic templates', 'Local storage', 'Community support'].map((item) => (
+                  {['200 checks/month', 'Single + bulk mode', 'CSV copy', 'Community support'].map((item) => (
                     <li key={item} className="flex items-center gap-2">
                       <Check className="h-4 w-4 text-emerald-500" /> {item}
                     </li>
@@ -270,7 +270,7 @@ export default function LandingPage({ onNavigate }) {
                 <p className="text-sm font-semibold text-slate-900">Pro</p>
                 <p className="mt-1 text-3xl font-bold text-slate-900">$12<span className="text-sm font-normal text-slate-500">/mo</span></p>
                 <ul className="mt-5 space-y-2.5 text-sm text-slate-600">
-                  {['Unlimited prompts', 'All templates', 'API key integration', 'Priority support', 'Export & sync'].map((item) => (
+                  {['Unlimited checks', 'Advanced risk scoring', 'Team access', 'Priority support', 'API access'].map((item) => (
                     <li key={item} className="flex items-center gap-2">
                       <Check className="h-4 w-4 text-indigo-500" /> {item}
                     </li>
@@ -295,9 +295,9 @@ export default function LandingPage({ onNavigate }) {
             <div className="flex h-6 w-6 items-center justify-center rounded-md bg-indigo-600">
               <Sparkles className="h-3 w-3 text-white" />
             </div>
-            <span className="text-sm font-semibold text-slate-700">PromptMaster</span>
+            <span className="text-sm font-semibold text-slate-700">MailVerifier</span>
           </div>
-          <p className="text-xs text-slate-400">© {new Date().getFullYear()} PromptMaster. All rights reserved.</p>
+          <p className="text-xs text-slate-400">© {new Date().getFullYear()} MailVerifier. All rights reserved.</p>
         </div>
       </footer>
     </div>
