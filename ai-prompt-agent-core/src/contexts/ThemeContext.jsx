@@ -21,9 +21,9 @@ function applyTheme(theme) {
 export function ThemeProvider({ children }) {
   const [theme, setThemeState] = useState(() => {
     try {
-      return localStorage.getItem('pm_theme') || 'system';
+      return localStorage.getItem('pm_theme') || 'light';
     } catch {
-      return 'system';
+      return 'light';
     }
   });
 

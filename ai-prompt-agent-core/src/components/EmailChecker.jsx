@@ -1,5 +1,5 @@
 import React, { useMemo, useState } from 'react';
-import { AlertCircle, CheckCircle2, Copy, MailCheck, Search, ShieldAlert, Upload } from 'lucide-react';
+import { AlertCircle, CheckCircle2, Copy, LogIn, MailCheck, Search, ShieldAlert, Upload, UserPlus } from 'lucide-react';
 
 const DISPOSABLE_DOMAINS = new Set([
   'mailinator.com',
@@ -148,7 +148,17 @@ export default function EmailChecker() {
                 Validate syntax, detect disposable domains, and verify MX records in one place.
               </p>
             </div>
-            <MailCheck className="h-10 w-10 text-sky-500 dark:text-neon-cyan" />
+            <div className="flex items-center gap-2">
+              <button className="inline-flex items-center gap-2 rounded-lg border border-slate-300 bg-white px-3 py-2 text-xs font-medium text-slate-700 transition hover:bg-slate-50 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-200 dark:hover:bg-slate-800">
+                <LogIn className="h-3.5 w-3.5" />
+                Sign In
+              </button>
+              <button className="inline-flex items-center gap-2 rounded-lg bg-sky-600 px-3 py-2 text-xs font-semibold text-white transition hover:bg-sky-700">
+                <UserPlus className="h-3.5 w-3.5" />
+                Create Account
+              </button>
+              <MailCheck className="h-8 w-8 text-sky-500 dark:text-neon-cyan" />
+            </div>
           </div>
 
           <div className="mt-6 grid gap-3 sm:grid-cols-4">
