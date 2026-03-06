@@ -112,7 +112,7 @@ export default function LandingPage({ onNavigate }) {
             <motion.div variants={fadeUp} custom={0} className="mb-6">
               <span className="inline-flex items-center gap-1.5 rounded-full border border-indigo-200 bg-indigo-50 px-3.5 py-1 text-xs font-semibold text-indigo-700">
                 <Zap className="h-3 w-3" />
-                Now in Public Beta
+                Now in Public Beta · Auto Deploy Live
               </span>
             </motion.div>
 
