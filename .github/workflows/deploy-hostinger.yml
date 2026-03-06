@@ -3,11 +3,27 @@ name: Deploy to Hostinger (SSH)
 on:
   push:
     branches: [main]
+    paths:
+      - 'ai-prompt-agent-core/src/**'
+      - 'ai-prompt-agent-core/public/**'
+      - 'ai-prompt-agent-core/templates/**'
+      - 'ai-prompt-agent-core/pro.html'
+      - 'ai-prompt-agent-core/package.json'
+      - 'ai-prompt-agent-core/package-lock.json'
+      - 'ai-prompt-agent-core/vite.config.js'
+      - 'ai-prompt-agent-core/tailwind.config.js'
+      - 'ai-prompt-agent-core/postcss.config.js'
+      - '.github/workflows/deploy-hostinger.yml'
   workflow_dispatch:
+
+concurrency:
+  group: hostinger-deploy-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
+    timeout-minutes: 15
 
     steps:
       - name: Checkout
