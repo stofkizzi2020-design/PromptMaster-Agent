@@ -1,61 +1,46 @@
-name: Deploy to Hostinger (SSH)
+name: Deploy to Hostinger via SSH
 
 on:
   push:
-    branches: [main]
-    paths:
-      - 'ai-prompt-agent-core/src/**'
-      - 'ai-prompt-agent-core/public/**'
-      - 'ai-prompt-agent-core/templates/**'
-      - 'ai-prompt-agent-core/pro.html'
-      - 'ai-prompt-agent-core/package.json'
-      - 'ai-prompt-agent-core/package-lock.json'
-      - 'ai-prompt-agent-core/vite.config.js'
-      - 'ai-prompt-agent-core/tailwind.config.js'
-      - 'ai-prompt-agent-core/postcss.config.js'
-      - '.github/workflows/deploy-hostinger.yml'
+    branches:
+      - main
   workflow_dispatch:
-
-concurrency:
-  group: hostinger-deploy-${{ github.ref }}
-  cancel-in-progress: true
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
-    timeout-minutes: 15
 
     steps:
-      - name: Checkout
+      - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Setup Node
+      - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: "20"
           cache: npm
-          cache-dependency-path: ai-prompt-agent-core/package-lock.json
+          cache-dependency-path: frontend/package-lock.json
 
-      - name: Install dependencies
-        working-directory: ai-prompt-agent-core
+      - name: Install frontend dependencies
+        working-directory: frontend
         run: npm ci
 
-      - name: Build
-        working-directory: ai-prompt-agent-core
+      - name: Build frontend
+        working-directory: frontend
         run: npm run build
 
       - name: Install rsync + sshpass
         run: sudo apt-get update && sudo apt-get install -y rsync sshpass
 
-      - name: Deploy to Hostinger via SSH (rsync)
+      - name: Deploy frontend dist with rsync over SSH
         env:
-          SSH_HOST: ${{ secrets.HOSTINGER_SSH_HOST }}
-          SSH_PORT: ${{ secrets.HOSTINGER_SSH_PORT }}
-          SSH_USER: ${{ secrets.HOSTINGER_SSH_USER }}
-          SSH_PASS: ${{ secrets.HOSTINGER_SSH_PASS }}
-          SSH_TARGET_DIR: ${{ secrets.HOSTINGER_SERVER_DIR }}
+          HOST: ${{ secrets.HOSTINGER_SSH_HOST }}
+          PORT: ${{ secrets.HOSTINGER_SSH_PORT }}
+          USER: ${{ secrets.HOSTINGER_SSH_USER }}
+          PASS: ${{ secrets.HOSTINGER_SSH_PASS }}
+          REMOTE_DIR: ${{ secrets.HOSTINGER_REMOTE_DIR }}
         run: |
-          sshpass -p "$SSH_PASS" rsync -az --delete \
-            -e "ssh -p $SSH_PORT -o StrictHostKeyChecking=no" \
-            ai-prompt-agent-core/dist/ \
-            "$SSH_USER@$SSH_HOST:$SSH_TARGET_DIR"
+          sshpass -p "$PASS" rsync -avz --delete \
+            -e "ssh -o StrictHostKeyChecking=no -p $PORT" \
+            frontend/dist/ \
+            "$USER@$HOST:$REMOTE_DIR"
