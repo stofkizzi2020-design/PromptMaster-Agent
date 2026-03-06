@@ -8,7 +8,7 @@ export default defineConfig({
   plugins: [react()],
   server: {
     port: 3000,
-    open: '/pro.html',
+    open: '/',
     host: true
   },
   build: {
@@ -17,7 +17,8 @@ export default defineConfig({
     sourcemap: true,
     rollupOptions: {
       input: {
-        main: resolve(__dirname, 'pro.html'),
+        index: resolve(__dirname, 'index.html'),
+        pro: resolve(__dirname, 'pro.html'),
       }
     }
   },
