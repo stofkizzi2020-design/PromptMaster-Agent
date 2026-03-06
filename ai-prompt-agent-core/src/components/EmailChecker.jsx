@@ -39,7 +39,7 @@ function parseBulkInput(input) {
   );
 }
 
-export default function EmailChecker() {
+export default function EmailChecker({ onOpenLogin, onOpenRegister }) {
   const [singleEmail, setSingleEmail] = useState('');
   const [bulkInput, setBulkInput] = useState('');
   const [checking, setChecking] = useState(false);
@@ -149,11 +149,17 @@ export default function EmailChecker() {
               </p>
             </div>
             <div className="flex items-center gap-2">
-              <button className="inline-flex items-center gap-2 rounded-lg border border-slate-300 bg-white px-3 py-2 text-xs font-medium text-slate-700 transition hover:bg-slate-50 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-200 dark:hover:bg-slate-800">
+              <button
+                onClick={() => onOpenLogin && onOpenLogin()}
+                className="inline-flex items-center gap-2 rounded-lg border border-slate-300 bg-white px-3 py-2 text-xs font-medium text-slate-700 transition hover:bg-slate-50 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-200 dark:hover:bg-slate-800"
+              >
                 <LogIn className="h-3.5 w-3.5" />
                 Sign In
               </button>
-              <button className="inline-flex items-center gap-2 rounded-lg bg-sky-600 px-3 py-2 text-xs font-semibold text-white transition hover:bg-sky-700">
+              <button
+                onClick={() => onOpenRegister && onOpenRegister()}
+                className="inline-flex items-center gap-2 rounded-lg bg-sky-600 px-3 py-2 text-xs font-semibold text-white transition hover:bg-sky-700"
+              >
                 <UserPlus className="h-3.5 w-3.5" />
                 Create Account
               </button>

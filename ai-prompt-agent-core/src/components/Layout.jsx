@@ -3,6 +3,7 @@ import Sidebar from './Sidebar';
 import EmailChecker from './EmailChecker';
 import SettingsPage from './SettingsPage';
 import HelpPage from './HelpPage';
+import AuthPage from './AuthPage';
 
 export default function Layout() {
   const [activePage, setActivePage] = useState('checker');
@@ -10,7 +11,16 @@ export default function Layout() {
   const renderPage = () => {
     switch (activePage) {
       case 'checker':
-        return <EmailChecker />;
+        return (
+          <EmailChecker
+            onOpenLogin={() => setActivePage('login')}
+            onOpenRegister={() => setActivePage('register')}
+          />
+        );
+      case 'login':
+        return <AuthPage mode="login" onNavigate={(page) => setActivePage(page === 'app' ? 'checker' : page)} />;
+      case 'register':
+        return <AuthPage mode="register" onNavigate={(page) => setActivePage(page === 'app' ? 'checker' : page)} />;
       case 'settings':
         return <SettingsPage />;
       case 'help':
