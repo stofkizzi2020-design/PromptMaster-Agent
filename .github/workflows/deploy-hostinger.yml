@@ -1,14 +1,28 @@
-name: Deploy to Hostinger via SSH
+name: Deploy Hostinger Frontend
 
 on:
   push:
-    branches:
-      - main
+    branches: [main]
+    paths:
+      - 'frontend/src/**'
+      - 'frontend/public/**'
+      - 'frontend/index.html'
+      - 'frontend/package.json'
+      - 'frontend/package-lock.json'
+      - 'frontend/vite.config.js'
+      - 'frontend/tailwind.config.js'
+      - 'frontend/postcss.config.js'
+      - '.github/workflows/deploy-hostinger.yml'
   workflow_dispatch:
+
+concurrency:
+  group: hostinger-frontend-deploy-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
+    timeout-minutes: 15
 
     steps:
       - name: Checkout repository
@@ -17,7 +31,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: "20"
+          node-version: '20'
           cache: npm
           cache-dependency-path: frontend/package-lock.json
 
@@ -32,15 +46,22 @@ jobs:
       - name: Install rsync + sshpass
         run: sudo apt-get update && sudo apt-get install -y rsync sshpass
 
-      - name: Deploy frontend dist with rsync over SSH
+      - name: Deploy dist via SSH
         env:
-          HOST: ${{ secrets.HOSTINGER_SSH_HOST }}
-          PORT: ${{ secrets.HOSTINGER_SSH_PORT }}
-          USER: ${{ secrets.HOSTINGER_SSH_USER }}
-          PASS: ${{ secrets.HOSTINGER_SSH_PASS }}
-          REMOTE_DIR: ${{ secrets.HOSTINGER_REMOTE_DIR }}
+          SSH_HOST: ${{ secrets.HOSTINGER_SSH_HOST }}
+          SSH_PORT: ${{ secrets.HOSTINGER_SSH_PORT }}
+          SSH_USER: ${{ secrets.HOSTINGER_SSH_USER }}
+          SSH_PASS: ${{ secrets.HOSTINGER_SSH_PASS }}
+          SSH_TARGET_DIR: ${{ secrets.HOSTINGER_SERVER_DIR }}
+          SSH_TARGET_DIR_LEGACY: ${{ secrets.HOSTINGER_REMOTE_DIR }}
         run: |
-          sshpass -p "$PASS" rsync -avz --delete \
-            -e "ssh -o StrictHostKeyChecking=no -p $PORT" \
+          TARGET_DIR="${SSH_TARGET_DIR:-$SSH_TARGET_DIR_LEGACY}"
+          if [ -z "$SSH_HOST" ] || [ -z "$SSH_PORT" ] || [ -z "$SSH_USER" ] || [ -z "$SSH_PASS" ] || [ -z "$TARGET_DIR" ]; then
+            echo "Missing required secrets: HOSTINGER_SSH_HOST, HOSTINGER_SSH_PORT, HOSTINGER_SSH_USER, HOSTINGER_SSH_PASS, HOSTINGER_SERVER_DIR"
+            exit 1
+          fi
+
+          sshpass -p "$SSH_PASS" rsync -az --delete \
+            -e "ssh -p $SSH_PORT -o StrictHostKeyChecking=no" \
             frontend/dist/ \
-            "$USER@$HOST:$REMOTE_DIR"
+            "$SSH_USER@$SSH_HOST:$TARGET_DIR"
