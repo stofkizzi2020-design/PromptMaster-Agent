@@ -4,14 +4,14 @@ on:
   push:
     branches: [main]
     paths:
-      - 'frontend/src/**'
-      - 'frontend/public/**'
-      - 'frontend/index.html'
-      - 'frontend/package.json'
-      - 'frontend/package-lock.json'
-      - 'frontend/vite.config.js'
-      - 'frontend/tailwind.config.js'
-      - 'frontend/postcss.config.js'
+      - 'ai-prompt-agent-core/src/**'
+      - 'ai-prompt-agent-core/public/**'
+      - 'ai-prompt-agent-core/index.html'
+      - 'ai-prompt-agent-core/package.json'
+      - 'ai-prompt-agent-core/package-lock.json'
+      - 'ai-prompt-agent-core/vite.config.js'
+      - 'ai-prompt-agent-core/tailwind.config.js'
+      - 'ai-prompt-agent-core/postcss.config.js'
       - '.github/workflows/deploy-hostinger.yml'
   workflow_dispatch:
 
@@ -34,11 +34,11 @@ jobs:
           node-version: '20'
 
       - name: Install frontend dependencies
-        working-directory: frontend
+        working-directory: ai-prompt-agent-core
         run: npm ci
 
       - name: Build frontend
-        working-directory: frontend
+        working-directory: ai-prompt-agent-core
         run: npm run build
 
       - name: Install rsync + sshpass
@@ -61,5 +61,5 @@ jobs:
 
           sshpass -p "$SSH_PASS" rsync -az --delete \
             -e "ssh -p $SSH_PORT -o StrictHostKeyChecking=no" \
-            frontend/dist/ \
+            ai-prompt-agent-core/dist/ \
             "$SSH_USER@$SSH_HOST:$TARGET_DIR"
